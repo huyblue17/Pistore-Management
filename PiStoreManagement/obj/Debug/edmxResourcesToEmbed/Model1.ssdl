@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PiStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="IDA" />
+    </Key>
+    <Property Name="IDA" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Uname" Type="varchar" MaxLength="100" />
+    <Property Name="Pword" Type="varchar" MaxLength="100" />
+    <Property Name="lock" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Bill">
+    <Key>
+      <PropertyRef Name="BID" />
+    </Key>
+    <Property Name="BID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="OID" Type="varchar" MaxLength="100" />
+    <Property Name="CID" Type="varchar" MaxLength="100" />
+    <Property Name="EID" Type="varchar" MaxLength="100" />
+    <Property Name="BillDate" Type="date" />
+    <Property Name="BTotalPrice" Type="money" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="CID" />
+    </Key>
+    <Property Name="CID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Cname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Cmail" Type="varchar" MaxLength="100" />
+    <Property Name="Cphone" Type="int" />
+    <Property Name="Caddress" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EID" />
+    </Key>
+    <Property Name="EID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Ename" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Ephone" Type="int" />
+    <Property Name="Eaddress" Type="nvarchar" MaxLength="100" />
+    <Property Name="Salary" Type="money" />
+    <Property Name="HireDate" Type="date" />
+  </EntityType>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="IID" />
+    </Key>
+    <Property Name="IID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="OID" Type="varchar" MaxLength="100" />
+    <Property Name="PID" Type="varchar" MaxLength="100" />
+    <Property Name="Quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Porder">
+    <Key>
+      <PropertyRef Name="OID" />
+    </Key>
+    <Property Name="OID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CID" Type="varchar" MaxLength="100" />
+    <Property Name="EID" Type="varchar" MaxLength="100" />
+    <Property Name="OrderDate" Type="date" />
+    <Property Name="TotalPrice" Type="money" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="PID" />
+    </Key>
+    <Property Name="PID" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Pname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Description" Type="varchar" MaxLength="100" />
+    <Property Name="Price" Type="money" />
+    <Property Name="PQuantity" Type="int" />
+  </EntityType>
+  <Association Name="FK_CID_B">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="CID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="CID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CID_O">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="CID" />
+      </Principal>
+      <Dependent Role="Porder">
+        <PropertyRef Name="CID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EID_B">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="EID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EID_O">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EID" />
+      </Principal>
+      <Dependent Role="Porder">
+        <PropertyRef Name="EID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OID_B">
+    <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+    <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Porder">
+        <PropertyRef Name="OID" />
+      </Principal>
+      <Dependent Role="Bill">
+        <PropertyRef Name="OID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OID_OI">
+    <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Porder">
+        <PropertyRef Name="OID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="OID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PID_OI">
+    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="PID" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="PID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PiStoreModelStoreContainer">
+    <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Porder" EntityType="Self.Porder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CID_B" Association="Self.FK_CID_B">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CID_O" Association="Self.FK_CID_O">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Porder" EntitySet="Porder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EID_B" Association="Self.FK_EID_B">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EID_O" Association="Self.FK_EID_O">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Porder" EntitySet="Porder" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OID_B" Association="Self.FK_OID_B">
+      <End Role="Porder" EntitySet="Porder" />
+      <End Role="Bill" EntitySet="Bill" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OID_OI" Association="Self.FK_OID_OI">
+      <End Role="Porder" EntitySet="Porder" />
+      <End Role="OrderItem" EntitySet="OrderItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PID_OI" Association="Self.FK_PID_OI">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="OrderItem" EntitySet="OrderItem" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

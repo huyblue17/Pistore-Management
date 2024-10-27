@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PiStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="IDA" />
+          </Key>
+          <Property Name="IDA" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Uname" Type="varchar" MaxLength="100" />
+          <Property Name="Pword" Type="varchar" MaxLength="100" />
+          <Property Name="lock" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BID" />
+          </Key>
+          <Property Name="BID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="OID" Type="varchar" MaxLength="100" />
+          <Property Name="CID" Type="varchar" MaxLength="100" />
+          <Property Name="EID" Type="varchar" MaxLength="100" />
+          <Property Name="BillDate" Type="date" />
+          <Property Name="BTotalPrice" Type="money" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="CID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cname" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cmail" Type="varchar" MaxLength="100" />
+          <Property Name="Cphone" Type="int" />
+          <Property Name="Caddress" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Ename" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+          <Property Name="Ephone" Type="int" />
+          <Property Name="Eaddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Salary" Type="money" />
+          <Property Name="HireDate" Type="date" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="IID" />
+          </Key>
+          <Property Name="IID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="OID" Type="varchar" MaxLength="100" />
+          <Property Name="PID" Type="varchar" MaxLength="100" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Porder">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CID" Type="varchar" MaxLength="100" />
+          <Property Name="EID" Type="varchar" MaxLength="100" />
+          <Property Name="OrderDate" Type="date" />
+          <Property Name="TotalPrice" Type="money" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pname" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Price" Type="money" />
+          <Property Name="PQuantity" Type="int" />
+        </EntityType>
+        <Association Name="FK_CID_B">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="CID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="CID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CID_O">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="CID" />
+            </Principal>
+            <Dependent Role="Porder">
+              <PropertyRef Name="CID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EID_B">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EID_O">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="Porder">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OID_B">
+          <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Porder">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="OID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OID_OI">
+          <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Porder">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PID_OI">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PiStoreModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Porder" EntityType="Self.Porder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CID_B" Association="Self.FK_CID_B">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CID_O" Association="Self.FK_CID_O">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Porder" EntitySet="Porder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EID_B" Association="Self.FK_EID_B">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EID_O" Association="Self.FK_EID_O">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Porder" EntitySet="Porder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OID_B" Association="Self.FK_OID_B">
+            <End Role="Porder" EntitySet="Porder" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OID_OI" Association="Self.FK_OID_OI">
+            <End Role="Porder" EntitySet="Porder" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PID_OI" Association="Self.FK_PID_OI">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PiStoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="IDA" />
+          </Key>
+          <Property Name="IDA" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Uname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Pword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="lock" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BID" />
+          </Key>
+          <Property Name="BID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BillDate" Type="DateTime" Precision="0" />
+          <Property Name="BTotalPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_CID_B" FromRole="Bill" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EID_B" FromRole="Bill" ToRole="Employee" />
+          <NavigationProperty Name="Porder" Relationship="Self.FK_OID_B" FromRole="Bill" ToRole="Porder" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="CID" />
+          </Key>
+          <Property Name="CID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Cname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Cphone" Type="Int32" />
+          <Property Name="Caddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK_CID_B" FromRole="Client" ToRole="Bill" />
+          <NavigationProperty Name="Porders" Relationship="Self.FK_CID_O" FromRole="Client" ToRole="Porder" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Ephone" Type="Int32" />
+          <Property Name="Eaddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="HireDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK_EID_B" FromRole="Employee" ToRole="Bill" />
+          <NavigationProperty Name="Porders" Relationship="Self.FK_EID_O" FromRole="Employee" ToRole="Porder" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="IID" />
+          </Key>
+          <Property Name="IID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Porder" Relationship="Self.FK_OID_OI" FromRole="OrderItem" ToRole="Porder" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_PID_OI" FromRole="OrderItem" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Porder">
+          <Key>
+            <PropertyRef Name="OID" />
+          </Key>
+          <Property Name="OID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK_OID_B" FromRole="Porder" ToRole="Bill" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_CID_O" FromRole="Porder" ToRole="Client" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_EID_O" FromRole="Porder" ToRole="Employee" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK_OID_OI" FromRole="Porder" ToRole="OrderItem" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="PID" />
+          </Key>
+          <Property Name="PID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PQuantity" Type="Int32" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK_PID_OI" FromRole="Product" ToRole="OrderItem" />
+        </EntityType>
+        <Association Name="FK_CID_B">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="CID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="CID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EID_B">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OID_B">
+          <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Porder">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="OID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CID_O">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="CID" />
+            </Principal>
+            <Dependent Role="Porder">
+              <PropertyRef Name="CID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EID_O">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Porder" Type="Self.Porder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="Porder">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OID_OI">
+          <End Role="Porder" Type="Self.Porder" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Porder">
+              <PropertyRef Name="OID" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PID_OI">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="PID" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="PID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PiStoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="Bills" EntityType="Self.Bill" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+          <EntitySet Name="Porders" EntityType="Self.Porder" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_CID_B" Association="Self.FK_CID_B">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EID_B" Association="Self.FK_EID_B">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OID_B" Association="Self.FK_OID_B">
+            <End Role="Porder" EntitySet="Porders" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CID_O" Association="Self.FK_CID_O">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Porder" EntitySet="Porders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EID_O" Association="Self.FK_EID_O">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Porder" EntitySet="Porders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OID_OI" Association="Self.FK_OID_OI">
+            <End Role="Porder" EntitySet="Porders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PID_OI" Association="Self.FK_PID_OI">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PiStoreModelStoreContainer" CdmEntityContainer="PiStoreEntities">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="PiStoreModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="IDA" ColumnName="IDA" />
+                <ScalarProperty Name="Uname" ColumnName="Uname" />
+                <ScalarProperty Name="Pword" ColumnName="Pword" />
+                <ScalarProperty Name="lock" ColumnName="lock" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="PiStoreModel.Bill">
+              <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="BID" ColumnName="BID" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+                <ScalarProperty Name="BTotalPrice" ColumnName="BTotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="PiStoreModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="Cname" ColumnName="Cname" />
+                <ScalarProperty Name="Cmail" ColumnName="Cmail" />
+                <ScalarProperty Name="Cphone" ColumnName="Cphone" />
+                <ScalarProperty Name="Caddress" ColumnName="Caddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="PiStoreModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="Ename" ColumnName="Ename" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Ephone" ColumnName="Ephone" />
+                <ScalarProperty Name="Eaddress" ColumnName="Eaddress" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="PiStoreModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="IID" ColumnName="IID" />
+                <ScalarProperty Name="OID" ColumnName="OID" />
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Porders">
+            <EntityTypeMapping TypeName="PiStoreModel.Porder">
+              <MappingFragment StoreEntitySet="Porder">
+                <ScalarProperty Name="OID" ColumnName="OID" />
+                <ScalarProperty Name="CID" ColumnName="CID" />
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="PiStoreModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="PID" ColumnName="PID" />
+                <ScalarProperty Name="Pname" ColumnName="Pname" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PQuantity" ColumnName="PQuantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

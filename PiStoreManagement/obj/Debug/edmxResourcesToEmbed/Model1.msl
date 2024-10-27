@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PiStoreModelStoreContainer" CdmEntityContainer="PiStoreEntities">
+    <EntitySetMapping Name="Accounts">
+      <EntityTypeMapping TypeName="PiStoreModel.Account">
+        <MappingFragment StoreEntitySet="Account">
+          <ScalarProperty Name="IDA" ColumnName="IDA" />
+          <ScalarProperty Name="Uname" ColumnName="Uname" />
+          <ScalarProperty Name="Pword" ColumnName="Pword" />
+          <ScalarProperty Name="lock" ColumnName="lock" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Bills">
+      <EntityTypeMapping TypeName="PiStoreModel.Bill">
+        <MappingFragment StoreEntitySet="Bill">
+          <ScalarProperty Name="BID" ColumnName="BID" />
+          <ScalarProperty Name="OID" ColumnName="OID" />
+          <ScalarProperty Name="CID" ColumnName="CID" />
+          <ScalarProperty Name="EID" ColumnName="EID" />
+          <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+          <ScalarProperty Name="BTotalPrice" ColumnName="BTotalPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="PiStoreModel.Client">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="CID" ColumnName="CID" />
+          <ScalarProperty Name="Cname" ColumnName="Cname" />
+          <ScalarProperty Name="Cmail" ColumnName="Cmail" />
+          <ScalarProperty Name="Cphone" ColumnName="Cphone" />
+          <ScalarProperty Name="Caddress" ColumnName="Caddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="PiStoreModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="EID" ColumnName="EID" />
+          <ScalarProperty Name="Ename" ColumnName="Ename" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Ephone" ColumnName="Ephone" />
+          <ScalarProperty Name="Eaddress" ColumnName="Eaddress" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderItems">
+      <EntityTypeMapping TypeName="PiStoreModel.OrderItem">
+        <MappingFragment StoreEntitySet="OrderItem">
+          <ScalarProperty Name="IID" ColumnName="IID" />
+          <ScalarProperty Name="OID" ColumnName="OID" />
+          <ScalarProperty Name="PID" ColumnName="PID" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Porders">
+      <EntityTypeMapping TypeName="PiStoreModel.Porder">
+        <MappingFragment StoreEntitySet="Porder">
+          <ScalarProperty Name="OID" ColumnName="OID" />
+          <ScalarProperty Name="CID" ColumnName="CID" />
+          <ScalarProperty Name="EID" ColumnName="EID" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="PiStoreModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="PID" ColumnName="PID" />
+          <ScalarProperty Name="Pname" ColumnName="Pname" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PQuantity" ColumnName="PQuantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

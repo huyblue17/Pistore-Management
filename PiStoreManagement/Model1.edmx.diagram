@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="914ae2a19ba04bdeb69e035623de946a" Name="Diagram1">
+        <EntityTypeShape EntityType="PiStoreModel.Account" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.Bill" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.Client" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.Employee" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.OrderItem" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.Porder" Width="1.5" PointX="6" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PiStoreModel.Product" Width="1.5" PointX="6" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="PiStoreModel.FK_CID_B" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_EID_B" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_OID_B" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_CID_O" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_EID_O" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_OID_OI" ManuallyRouted="false" />
+        <AssociationConnector Association="PiStoreModel.FK_PID_OI" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
