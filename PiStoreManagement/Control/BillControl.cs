@@ -50,6 +50,12 @@ namespace PiStoreManagement.Control
 
         private void btnBSearch_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                viewData();
+                return;
+            }
+
             if (!DateTime.TryParseExact(txtSearch.Text, "MM/dd/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime searchDate))
             {
                 MessageBox.Show("Please enter a valid date in DD/MM/YYYY format.", "Invalid Date", MessageBoxButtons.OK, MessageBoxIcon.Warning);

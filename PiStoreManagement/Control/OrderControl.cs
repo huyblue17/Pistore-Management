@@ -133,6 +133,7 @@ namespace PiStoreManagement.Control
         {
             controlDefault();
             viewData();
+            loadComboBox();
             btnOAdd.Enabled = true;
         }
 
@@ -339,6 +340,7 @@ namespace PiStoreManagement.Control
                 // Refresh the data grid view
                 viewData();
                 controlDefault();
+                loadComboBox();
                 rtbClient.Clear();
                 rtbEmployee.Clear();
             }

@@ -22,6 +22,7 @@ namespace PiStoreManagement.Control
             viewData();
             controlDefault();
             clearText();
+            dtpHiredate.MinDate = new DateTime(2020, 1, 1);
         }
 
         private void viewData()
@@ -222,7 +223,6 @@ namespace PiStoreManagement.Control
                 return; 
             }
 
-
             var newEmp = new Employee()
             {
                 EID = txtEID.Text,
@@ -270,6 +270,35 @@ namespace PiStoreManagement.Control
             var empToUpd = db.Employees.FirstOrDefault(emp => emp.EID == txtEID.Text);
             if (empToUpd != null)
             {
+                if (!checkField())
+                {
+                    MessageBox.Show("Please fill in all fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!checkMail())
+                {
+
+                    return;
+                }
+
+                if (!checkPhone())
+                {
+                    return;
+                }
+
+                if (!checkSalary())
+                {
+
+                    return;
+                }
+
+                if (!checkHireDate())
+                {
+                    return;
+                }
+
+
                 empToUpd.Ename = txtEname.Text;
                 empToUpd.Email = txtEmail.Text;
                 empToUpd.Ephone = int.Parse(txtEPhone.Text);

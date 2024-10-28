@@ -188,6 +188,22 @@ namespace PiStoreManagement.Control
             var proToUpd = db.Products.FirstOrDefault(emp => emp.PID == txtPID.Text);
             if (proToUpd != null)
             {
+                if (!checkField())
+                {
+                    MessageBox.Show("Please fill in all fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!checkPrice())
+                {
+                    return;
+                }
+
+                if (!checkQuan())
+                {
+                    return;
+                }
+
                 proToUpd.Pname = txtPname.Text;
                 proToUpd.Description = txtPdes.Text;
                 proToUpd.Price = decimal.Parse(txtPrice.Text);

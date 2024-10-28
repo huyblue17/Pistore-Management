@@ -48,6 +48,8 @@
             this.btnICancel = new System.Windows.Forms.Button();
             this.btnISave = new System.Windows.Forms.Button();
             this.btnIAdd = new System.Windows.Forms.Button();
+            this.rtbClientName = new System.Windows.Forms.RichTextBox();
+            this.rtbProductName = new System.Windows.Forms.RichTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrderItem)).BeginInit();
             this.panel2.SuspendLayout();
@@ -77,6 +79,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.panel2.Controls.Add(this.rtbProductName);
+            this.panel2.Controls.Add(this.rtbClientName);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.txtQuantity);
             this.panel2.Controls.Add(this.lblPrice);
@@ -292,6 +296,22 @@
             this.btnIAdd.UseVisualStyleBackColor = false;
             this.btnIAdd.Click += new System.EventHandler(this.btnIAdd_Click);
             // 
+            // rtbClientName
+            // 
+            this.rtbClientName.Location = new System.Drawing.Point(345, 129);
+            this.rtbClientName.Name = "rtbClientName";
+            this.rtbClientName.Size = new System.Drawing.Size(186, 24);
+            this.rtbClientName.TabIndex = 3;
+            this.rtbClientName.Text = "";
+            // 
+            // rtbProductName
+            // 
+            this.rtbProductName.Location = new System.Drawing.Point(345, 210);
+            this.rtbProductName.Name = "rtbProductName";
+            this.rtbProductName.Size = new System.Drawing.Size(186, 24);
+            this.rtbProductName.TabIndex = 34;
+            this.rtbProductName.Text = "";
+            // 
             // ItemControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -332,5 +352,7 @@
         private System.Windows.Forms.Button btnICancel;
         private System.Windows.Forms.Button btnIDelete;
         private System.Windows.Forms.Button btnIEdit;
+        private System.Windows.Forms.RichTextBox rtbProductName;
+        private System.Windows.Forms.RichTextBox rtbClientName;
     }
 }

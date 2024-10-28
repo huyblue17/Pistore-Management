@@ -20,8 +20,8 @@ namespace PiStoreManagement.Control
             loadComboBox();
             viewData();
             controlDefault();
-
-
+            rtbClientName.Enabled = false;
+            rtbProductName.Enabled = false;
         }
 
         private void controlDefault()
@@ -92,15 +92,25 @@ namespace PiStoreManagement.Control
             {
                 string selectedOrdID = cbOrderID.SelectedItem.ToString();
                 var oderDisplay = db.Porders.FirstOrDefault(ord => ord.OID == selectedOrdID);
+
+                if (oderDisplay != null)
+                {
+                    rtbClientName.Text = $"Client: {oderDisplay.Client.Cname}\n";
+                }
             }
         }
 
         private void cbProductID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbOrderID.SelectedIndex > 0)
+            if (cbProductID.SelectedIndex > 0) 
             {
                 string selectedProID = cbProductID.SelectedItem.ToString();
                 var proDisplay = db.Products.FirstOrDefault(pro => pro.PID == selectedProID);
+
+                if (proDisplay != null)
+                {
+                    rtbProductName.Text = $"Product: {proDisplay.Pname}\n"; 
+                }
             }
         }
 
@@ -250,6 +260,7 @@ namespace PiStoreManagement.Control
         private void btnICancel_Click(object sender, EventArgs e)
         {
             controlDefault();
+            loadComboBox();
         }
 
         private void btnIEdit_Click(object sender, EventArgs e)
@@ -343,6 +354,7 @@ namespace PiStoreManagement.Control
 
                 controlDefault();
                 viewData();
+                loadComboBox();
             }
             else
             {

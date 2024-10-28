@@ -232,6 +232,23 @@ namespace PiStoreManagement.Control
             var cliToUpd = db.Clients.FirstOrDefault(emp => emp.CID == txtCID.Text);
             if (cliToUpd != null)
             {
+                if (!checkField())
+                {
+                    MessageBox.Show("Please fill in all fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (!checkMail())
+                {
+
+                    return;
+                }
+
+                if (!checkPhone())
+                {
+                    return;
+                }
+
                 cliToUpd.Cname = txtCName.Text;
                 cliToUpd.Cmail = txtCmail.Text;
                 cliToUpd.Cphone = int.Parse(txtCPhone.Text);
