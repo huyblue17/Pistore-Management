@@ -126,7 +126,7 @@ namespace PiStoreManagement.Control
 
         private bool checkPhone()
         {
-            string regex = @"^\d+$";
+            string regex = @"^\d{10}$";
 
             if (Regex.IsMatch(txtEPhone.Text.Trim(), regex))
             {

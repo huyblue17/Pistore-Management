@@ -107,9 +107,9 @@ namespace PiStoreManagement.Control
             }
         }
 
-        private bool checkQuan() 
+        private bool checkQuan()
         {
-            if (int.TryParse(txtPrice.Text, out int number))
+            if (int.TryParse(txtQuan.Text, out int number))
             {
                 return true;
             }
@@ -119,6 +119,7 @@ namespace PiStoreManagement.Control
                 return false;
             }
         }
+
 
         private void btnCAdd_Click(object sender, EventArgs e)
         {
@@ -168,7 +169,7 @@ namespace PiStoreManagement.Control
                 Pname = txtPname.Text,
                 Description = txtPdes.Text,
                 Price = decimal.Parse(txtPrice.Text),
-                PQuantity = int.Parse(txtPrice.Text)
+                PQuantity = int.Parse(txtQuan.Text)
 
             };
 

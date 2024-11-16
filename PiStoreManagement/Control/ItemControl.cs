@@ -145,20 +145,34 @@ namespace PiStoreManagement.Control
 
             var product = db.Products.FirstOrDefault(pro => pro.PID == selectedProductID);
 
+            // Check if the product quantity is zero
+            if (product == null || product.PQuantity <= 0)
+            {
+                MessageBox.Show("This product is out of stock and cannot be added to the order.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (existingOrderItem != null)
             {
-                existingOrderItem.Quantity += quantity;
-
-                // Decrease product quantity
-                if (product != null)
+                if (product.PQuantity < quantity)
                 {
-                    product.PQuantity -= quantity; 
+                    MessageBox.Show("Not enough stock available to fulfill the requested quantity.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
+
+                existingOrderItem.Quantity += quantity;
+                product.PQuantity -= quantity;
 
                 MessageBox.Show("Product already exists in this order. Quantity updated!", "Update Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
+                if (product.PQuantity < quantity)
+                {
+                    MessageBox.Show("Not enough stock available to fulfill the requested quantity.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 string newItemID = idGenerator();
 
                 var newItem = new OrderItem
@@ -170,11 +184,7 @@ namespace PiStoreManagement.Control
                 };
 
                 db.OrderItems.Add(newItem);
-
-                if (product != null)
-                {
-                    product.PQuantity -= quantity; 
-                }
+                product.PQuantity -= quantity;
 
                 MessageBox.Show("New order item added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -183,6 +193,7 @@ namespace PiStoreManagement.Control
             UpdateTotalPrice(selectedOrderID);
             viewData();
         }
+
 
 
         private void UpdateTotalPrice(string orderId)
@@ -271,7 +282,6 @@ namespace PiStoreManagement.Control
                 return;
             }
 
-            // Validate inputs
             if (cbOrderID.SelectedIndex <= 0 || cbProductID.SelectedIndex <= 0)
             {
                 MessageBox.Show("Please select both an order and a product.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -284,23 +294,30 @@ namespace PiStoreManagement.Control
                 return;
             }
 
+            string selectedProductID = cbProductID.SelectedItem.ToString();
+            var product = db.Products.FirstOrDefault(pro => pro.PID == selectedProductID);
+
+            // Check if product quantity is 0 before editing
+            if (product != null && product.PQuantity <= 0)
+            {
+                MessageBox.Show("Product is out of stock and cannot be edited in the order.", "Stock Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             string selectedItemID = txtIID.Text;
             var existingOrderItem = db.OrderItems.FirstOrDefault(oi => oi.IID == selectedItemID);
 
             if (existingOrderItem != null)
             {
-                var product = db.Products.FirstOrDefault(pro => pro.PID == existingOrderItem.PID);
-
                 if (product != null)
                 {
                     product.PQuantity += existingOrderItem.Quantity;
                 }
 
                 existingOrderItem.OID = cbOrderID.SelectedItem.ToString();
-                existingOrderItem.PID = cbProductID.SelectedItem.ToString();
+                existingOrderItem.PID = selectedProductID;
                 existingOrderItem.Quantity = newQuantity;
 
-               
                 if (product != null)
                 {
                     product.PQuantity -= newQuantity;
@@ -318,6 +335,7 @@ namespace PiStoreManagement.Control
                 MessageBox.Show("Order item not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private void btnIDelete_Click(object sender, EventArgs e)
         {
